@@ -1,0 +1,10 @@
+TODO
+
+- Github actions
+- Webapp
+- VPS renting
+- Firewall -> in whatever
+- Reverse proxy -> traefik -> dashboard
+- Database -> mongodb -> local testing -> separate deploy
+- Docker image -> Docker-compose
+- Github actions container registry
