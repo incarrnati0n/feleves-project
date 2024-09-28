@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -13,7 +16,7 @@ import (
 const (
 	mongoURI = "mongodb://localhost:27017"
 	dbName = "guests"
-	collection = "guests"
+	collectionName = "guests"
 )
 
 type GuestLog struct {
@@ -27,6 +30,12 @@ var client *mongo.Client
 func main() {
 	fmt.Println("Hello world!")
 	connect()
+
+	http.Handle("/", http.FileServer(http.Dir("../frontend/build")))
+	http.HandleFunc("/getAllDocuments", getAllDocuments)
+
+	fmt.Println("Server running on port 8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func initDb() {
@@ -41,7 +50,7 @@ func initDb() {
 		GuestLog{Name: "L'e Copoá", Log: "Ca'va! Ca'va!", Date: formatted},
 	}
 
-	collection := client.Database(dbName).Collection(collection)
+	collection := client.Database(dbName).Collection(collectionName)
 
 	_, err := collection.InsertMany(context.Background(), seedData)
 
@@ -75,8 +84,32 @@ func connect() {
 }
 
 
-func fetchAll() {
-	
+func getAllDocuments(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "OPTIONS, GET")
+	w.Header().Set("Content-Type", "application/json")
+
+	collection := client.Database(dbName).Collection(collectionName)
+
+	cursor, err := collection.Find(context.Background(), bson.D{})
+
+	if err != nil {
+		http.Error(w, "Error fetching documents", http.StatusInternalServerError)
+		return
+	}
+
+	defer cursor.Close(context.Background())
+
+	var guestLogs []GuestLog
+	if err = cursor.All(context.Background(), &guestLogs); err != nil {
+		http.Error(w, "Error reading documents", http.StatusInternalServerError)
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(guestLogs); err != nil {
+		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
+		return
+	}
 }
 
-func writeDatabase() {}
+func write2Database() {}
