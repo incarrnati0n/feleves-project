@@ -1,0 +1,7 @@
+POST http://localhost:1337/writeDocument
+Content-Type: application/json
+
+{
+    "name": "Yap Elek",
+    "log": "Sokat beszélek"
+}
