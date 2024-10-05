@@ -29,8 +29,8 @@ var client *mongo.Client
 
 func main() {	
 	http.Handle("/", http.FileServer(http.Dir("../frontend/build")))
-	http.HandleFunc("/getAllDocuments", getAllDocuments)
-	http.HandleFunc("/writeDocument", write2Database)
+	http.HandleFunc("/readLogs", getAllDocuments)
+	http.HandleFunc("/createLog", write2Database)
 
 	fmt.Println("Server running on port 1337!")
 	log.Fatal(http.ListenAndServe(":1337", nil))
