@@ -22,7 +22,7 @@ const (
 type GuestLog struct {
 	Name string `json:"name"`
 	Log string `json:"log"`
-	Date string `json:"data"`
+	Date string `json:"date"`
 }
 
 var client *mongo.Client
@@ -36,22 +36,6 @@ func main() {
 	log.Fatal(http.ListenAndServe(":1337", nil))
 }
 
-func initDb() {
-	seedData := []interface{}{
-		GuestLog{Name: "asd", Log: "kek", Date: "2000-01-01"},
-		GuestLog{Name: "asd2", Log: "kek1", Date: "2000-01-01"},
-		GuestLog{Name: "asd3", Log: "kek2", Date: "2000-01-01"},
-		GuestLog{Name: "asd4", Log: "kek3", Date: "2000-01-01"},
-	}
-
-	collection := client.Database(dbName).Collection(collectionName)
-	_, err := collection.InsertMany(context.Background(), seedData)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Println("Data seeded")
-}
 
 func init() {
 	clientOptions := options.Client().ApplyURI(mongoURI)
@@ -69,7 +53,6 @@ func init() {
 
 	log.Println("Connected to MongoDB!")
 
-	initDb()
 }
 
 
