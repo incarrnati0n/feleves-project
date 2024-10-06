@@ -1,15 +1,16 @@
-import { useState } from "react";
 import Bar from "./Bar";
 import LogPopup from "./LogPopup";
+import GuestLog from "./GuestLog";
+import { useState } from "react";
 
 export default function App() {
-  const [openPopup, setOpenPopup] = useState(false);
+  const [reload, setReload] = useState(0);
 
   return (
     <>
       <Bar />
-      <button onClick={() => setOpenPopup(true)}>Open me!</button>
-      <LogPopup openPopup={openPopup} setOpenPopup={setOpenPopup} />
+      <LogPopup reload={reload} setReload={setReload} />
+      <GuestLog reload={reload} />
     </>
   );
 }

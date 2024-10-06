@@ -7,7 +7,7 @@ body {
 }
 
 .nav {
-  background-color: black;
+  background-color: lightskyblue;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -18,4 +18,38 @@ body {
 
 .site-title {
   font-size: 2rem;
+}
+
+.item-container {
+  text-align: center;
+}
+
+.item-underline {
+  width: 50%;
+  margin: "0 auto";
+}
+
+.guest-log-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-controls {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-page-info {
+  margin: 0 10px;
 }

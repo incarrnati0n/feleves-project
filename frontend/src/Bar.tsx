@@ -1,9 +1,13 @@
-import React from "react";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 
 export default function Bar() {
   return (
-    <nav className="nav">
-      <h1 className="site-title">Placeholder name</h1>
-    </nav>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Cloud Hotel
+        </Typography>
+      </Toolbar>
+    </AppBar>
   );
 }
