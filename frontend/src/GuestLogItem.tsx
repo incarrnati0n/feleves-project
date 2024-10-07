@@ -10,8 +10,8 @@ interface GuestLogItemProps {
 
 export default function GuestLogItem({ item }: GuestLogItemProps) {
   return (
-    <Box my={2}>
-      <Card>
+    <Box display="flex" justifyContent="center" my={2}>
+      <Card sx={{ width: "90%", maxWidth: 800 }}> {/* Adjust width and maxWidth */}
         <CardContent>
           <Typography variant="h6" component="div">
             {item.name}
