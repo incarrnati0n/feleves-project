@@ -28,7 +28,7 @@ type GuestLog struct {
 var client *mongo.Client
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("../frontend/build")))
+	http.Handle("/", http.FileServer(http.Dir("/app/static")))
 	http.HandleFunc("/readLogs", getAllDocuments)
 	http.HandleFunc("/createLog", write2Database)
 
