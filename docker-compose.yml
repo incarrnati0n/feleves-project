@@ -1,0 +1,17 @@
+version: "3"
+services:
+  webapp:
+    image: ghcr.io/incarrnati0n/feleves-project:sha-f5d5c3a
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "1337:1337"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+  mongo:
+    image: mongo:latest
+    hostname: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
