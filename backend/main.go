@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -14,20 +15,19 @@ import (
 )
 
 const (
-	mongoURI = "mongodb://localhost:27017"
-	dbName = "guests"
+	dbName         = "guests"
 	collectionName = "guests"
 )
 
 type GuestLog struct {
 	Name string `json:"name"`
-	Log string `json:"log"`
+	Log  string `json:"log"`
 	Date string `json:"date"`
 }
 
 var client *mongo.Client
 
-func main() {	
+func main() {
 	http.Handle("/", http.FileServer(http.Dir("../frontend/build")))
 	http.HandleFunc("/readLogs", getAllDocuments)
 	http.HandleFunc("/createLog", write2Database)
@@ -36,9 +36,8 @@ func main() {
 	log.Fatal(http.ListenAndServe(":1337", nil))
 }
 
-
 func init() {
-	clientOptions := options.Client().ApplyURI(mongoURI)
+	clientOptions := options.Client().ApplyURI(os.Getenv("MONGO_URI"))
 
 	var err error
 	client, err = mongo.Connect(context.Background(), clientOptions)
@@ -54,7 +53,6 @@ func init() {
 	log.Println("Connected to MongoDB!")
 
 }
-
 
 func getAllDocuments(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
