@@ -37,7 +37,14 @@ func main() {
 }
 
 func init() {
-	clientOptions := options.Client().ApplyURI(os.Getenv("MONGO_URI"))
+
+	mongoUri := os.Getenv("MONGO_URI")
+
+	if mongoUri == "" {
+		mongoUri = "mongodb://localhost:27017"
+	}
+
+	clientOptions := options.Client().ApplyURI(mongoUri)
 
 	var err error
 	client, err = mongo.Connect(context.Background(), clientOptions)
