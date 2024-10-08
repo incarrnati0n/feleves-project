@@ -47,6 +47,12 @@ export default function LogPopup({ reload, setReload }: LogPopupProps) {
       log: log,
     };
 
+    if (jsonPayload.log === "" || jsonPayload.name === "") {
+      setResponseText("Fields cannot be empty!");
+      handleReponseOpen();
+      return;
+    }
+
     axios.post("/createLog", jsonPayload).then((res) => {
       if (res.status === 201) {
         setReload(reload + 1);
