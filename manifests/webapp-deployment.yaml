@@ -19,12 +19,12 @@ spec:
         image: ghcr.io/incarrnati0n/feleves-project:sha-4654585
         ports:
         - containerPort: 1337
-      env:
-      - name: MONGO_URI
-        valueFrom:
-          configMapKeyRef:
-            name: mongo-config
-            key: mongo-url
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: mongo-url
 ---
 apiVersion: v1
 kind: Service
