@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: webapp
+        image: ghcr.io/incarrnati0n/feleves-project:sha-4654585
+        ports:
+        - containerPort: 1337
+      env:
+      - name: MONGO_URI
+        valueFrom:
+          configMapKeyRef:
+            name: mongo-config
+            key: mongo-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  selector:
+    app: webapp
+  ports:
+  - port: 1337
+    targetPort: 1337
